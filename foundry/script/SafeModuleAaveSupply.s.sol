@@ -44,9 +44,8 @@ contract SafeModuleAaveSupply is Script {
     address constant SAFE_MODULE_ADDRESS =
         0x100656372C821539651f5905Ca39b7C95f9AA433;
 
-    /// @notice Safe Wallet on Tenderly Virtual Testnet
-    address constant SAFE_WALLET_ADDRESS =
-        0xA64e3823bAc81Fd7bB0DF803eB328f33Fc13bdE8; // Enter Deployed Safe Address here 
+    /// @notice Safe Wallet (read from env)
+    address SAFE_WALLET_ADDRESS;
 
     /// @notice MultiSendCallOnly contract
     address constant MULTISEND_CALL_ONLY =
@@ -72,6 +71,9 @@ contract SafeModuleAaveSupply is Script {
     // ============ Main Entry Point ============
 
     function run() external {
+        // Read Safe address from environment variable
+        SAFE_WALLET_ADDRESS = vm.envAddress("SAFE_WALLET_ADDRESS");
+
         console.log(
             "============================================================"
         );
@@ -101,7 +103,7 @@ contract SafeModuleAaveSupply is Script {
 
     // ============ Setup Functions ============
 
-    function _logConfiguration() internal pure {
+    function _logConfiguration() internal view {
         console.log("Configuration:");
         console.log("  TASK_EXECUTION_ADDRESS:", TASK_EXECUTION_ADDRESS);
         console.log("  SAFE_MODULE_ADDRESS:", SAFE_MODULE_ADDRESS);
@@ -178,7 +180,7 @@ contract SafeModuleAaveSupply is Script {
      *      - dataLength (32 bytes): length of the data
      *      - data (variable): calldata
      */
-    function _buildAaveSupplyMultiSend() internal pure returns (bytes memory) {
+    function _buildAaveSupplyMultiSend() internal view returns (bytes memory) {
         console.log("Step 4: Building MultiSend transaction data...");
 
         // Transaction 1: Approve USDC for Aave
@@ -257,7 +259,6 @@ contract SafeModuleAaveSupply is Script {
             SAFE_WALLET_ADDRESS,
             AAVE_POOL_ADDRESS
         );
-
 
         console.log("  Initial USDC balance:", initialBalance / 1e6, "USDC");
         console.log("  Initial allowance:", initialAllowance / 1e6, "USDC");
