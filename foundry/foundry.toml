@@ -1,0 +1,26 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+script = "script"
+test = "test"
+
+# Tenderly Virtual Testnet
+fork_url = "https://virtual.arbitrum.eu.rpc.tenderly.co/25645339-50c7-4871-8106-ea2e51105f5a"
+
+# Optimizer settings
+optimizer = true
+optimizer_runs = 200
+
+# EVM version for Arbitrum (supports newer opcodes)
+evm_version = "prague"
+
+# Add remappings if needed
+remappings = [
+    "@openzeppelin/=lib/openzeppelin-contracts/",
+    "forge-std/=lib/forge-std/src/"
+]
+
+[rpc_endpoints]
+tenderly = "https://virtual.arbitrum.eu.rpc.tenderly.co/25645339-50c7-4871-8106-ea2e51105f5a"
+arbitrum = "https://arb1.arbitrum.io/rpc"
